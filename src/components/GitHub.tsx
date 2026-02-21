@@ -34,13 +34,11 @@ interface GitHubEvent {
 }
 
 function GitHub() {
-  const [user, setUser] = useState<GitHubUser | null>(null)
-  const [repos, setRepos] = useState<GitHubRepo[]>([])
-  const [events, setEvents] = useState<GitHubEvent[]>([])
-//   const [contributions, setContributions] = useState<Record<string, number>>({})
-  const [contributions, setContributions] = useState<Record<string, number>>({})
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+const [user, setUser] = useState<GitHubUser | null>(null)
+const [repos, setRepos] = useState<GitHubRepo[]>([])
+const [events, setEvents] = useState<GitHubEvent[]>([])
+const [loading, setLoading] = useState(true)
+const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,14 +55,6 @@ function GitHub() {
         const userData: GitHubUser = await userRes.json()
         const reposData: GitHubRepo[] = await reposRes.json()
         const eventsData: GitHubEvent[] = await eventsRes.json()
-
-        // Build contribution map from events
-        const contribMap: Record<string, number> = {}
-        eventsData.forEach((event) => {
-          const date = event.created_at.split('T')[0]
-          contribMap[date] = (contribMap[date] || 0) + 1
-        })
-        setContributions(contribMap)
 
         setUser(userData)
         setRepos(reposData)
